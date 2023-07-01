@@ -1,0 +1,15 @@
+{
+  "name": "moneger-api",
+  "version": "1.0.0",
+  "description": "this is API for my new vue3 project \"moneger\"",
+  "main": "index.js",
+  "scripts": {
+    "serve": "node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "express": "^4.18.2"
+  }
+}
