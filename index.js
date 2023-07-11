@@ -1,30 +1,48 @@
-function isEmpty(value) {
-    return Object.keys(value).length === 0
-}
-
 const express = require('express'),
     app = express(),
-    bodyParser = require('body-parser')
+    routes = require('./src/controllers/index'),
+    database = require('./src/utils/db'),
+    ServiceError = require('./src/utils/Exception'),
+    cors = require('cors'),
+    session = require('express-session'),
+    checkAuth = require('./src/middleware/check-auth')
 
-app.use(bodyParser.json())
+const port = 4321
 
-app.get('/', (req, res) => {
-    res.send('42141254')
-})
-
-app.get('/home/:id', (req, res) => {
-    res.send(`it's home page ${req.params.id}`)
-})
-
-app.post('/', (req, res) => {
-    if (isEmpty(req.body)) {
-        res.status(400).send('Нет содержимого')
-        return
+app.use(cors({
+    origin: "*",
+    credentials: true
+}))
+app.use(express.json())
+// app.use(cookieParser())
+// app.use((req, res, next) => {
+//     console.log('my Nikitosy')
+//     next()
+// })
+app.use(session({
+    secret: 'secret',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        maxAge: 60 * 60 * 1000
     }
-
-    res.status(200).send(req.body)
+}))
+app.use(checkAuth)
+app.use(routes)
+app.use((err, req, res, next) => {
+    if (err instanceof ServiceError) {
+        res.status(err.statusCode).send(err.message)
+    } else {
+        next(err)
+    }
 })
 
-app.listen(4321, () => {
-    console.log('i\'m alive')
+app.listen(port, async () => {
+    try {
+        await database.sync()
+        console.log('The database was connected')
+    } catch(err) {
+        console.log(err)
+    }
+    console.log(`i'm alive! Link: http://localhost:${port}`)
 })
