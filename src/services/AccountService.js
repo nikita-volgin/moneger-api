@@ -26,11 +26,17 @@ module.exports = {
         })
     },
     async getAllAccounts(userId) {
-        return await AccountModel.findAll({
+        const items = await AccountModel.findAll({
             where: {
                 userId
             }
         })
+        const balance = await this.getTotalBalance(userId)
+
+        return {
+            items,
+            balance
+        }
     },
     async getTotalBalance(userId) {
         const accounts = await AccountModel.findAll({

@@ -14,7 +14,7 @@ router.get('/accounts', catchError(async (req, res) => {
 
 router.get('/accounts/balance', catchError(async (req, res) => {
     const balance = await AccountService.getTotalBalance(req.session.userId)
-    res.send(balance)
+    res.send({balance})
 }))
 
 module.exports = router
