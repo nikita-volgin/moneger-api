@@ -2,9 +2,10 @@ const { DataTypes } = require('sequelize'),
     database = require('../utils/db')
 
 const account = database.define('accounts', {
-    uid: DataTypes.INTEGER,
+    userId: DataTypes.INTEGER,
     name: DataTypes.STRING,
-    balance: DataTypes.INTEGER
+    balance: DataTypes.INTEGER,
+    showInTotal: DataTypes.BOOLEAN
 })
 
 module.exports = account

@@ -2,13 +2,14 @@ const AccountModel = require('../models/AccountModel')
 const ServiceError = require('../utils/Exception')
 
 module.exports = {
-    async createAccount(name, balance, userId) {
+    async createAccount(userId, name, balance, showInTotal) {
         if (!name || !balance) {
             throw new ServiceError(400, 'Неполные данные')
         }
 
         const isAccountCreated = await AccountModel.findOne({
             where: {
+                userId,
                 name
             }
         })
@@ -20,7 +21,8 @@ module.exports = {
         return await AccountModel.create({
             userId: +userId,
             name,
-            balance: +balance
+            balance: +balance,
+            showInTotal
         })
     },
     async getAllAccounts(userId) {
@@ -29,5 +31,17 @@ module.exports = {
                 userId
             }
         })
+    },
+    async getTotalBalance(userId) {
+        const accounts = await AccountModel.findAll({
+            where: {
+                userId,
+                showInTotal: true
+            }
+        })
+
+        const balanceArray = accounts.map(item => item.balance)
+
+        return balanceArray.reduce((sum, current) => sum + current, 0)
     }
 }

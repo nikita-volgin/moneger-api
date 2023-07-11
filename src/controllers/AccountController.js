@@ -3,13 +3,18 @@ const router = require('express').Router(),
     catchError = require('../middleware/catch-error')
 
 router.post('/account', catchError(async (req, res) => {
-    const account = await AccountService.createAccount(req.body.name, req.body.balance, req.session.userId)
-    res.status(200).send(account)
+    const account = await AccountService.createAccount(req.session.userId, req.body.name, req.body.balance, req.body.showInTotal)
+    res.send(account)
 }))
 
 router.get('/accounts', catchError(async (req, res) => {
     const accounts = await AccountService.getAllAccounts(req.session.userId)
-    res.status(200).send(accounts)
+    res.send(accounts)
+}))
+
+router.get('/accounts/balance', catchError(async (req, res) => {
+    const balance = await AccountService.getTotalBalance(req.session.userId)
+    res.send(balance)
 }))
 
 module.exports = router

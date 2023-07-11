@@ -5,7 +5,8 @@ const express = require('express'),
     ServiceError = require('./src/utils/Exception'),
     cors = require('cors'),
     session = require('express-session'),
-    checkAuth = require('./src/middleware/check-auth')
+    checkAuth = require('./src/middleware/check-auth'),
+    userRouter = require('./src/controllers/UserController')
 
 const port = 4321
 
@@ -27,8 +28,8 @@ app.use(session({
         maxAge: 60 * 60 * 1000
     }
 }))
-app.use(checkAuth)
-app.use(routes)
+app.use(userRouter)
+app.use(checkAuth, routes)
 app.use((err, req, res, next) => {
     if (err instanceof ServiceError) {
         res.status(err.statusCode).send(err.message)

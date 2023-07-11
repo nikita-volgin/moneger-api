@@ -1,7 +1,5 @@
-const userRouter = require('./UserController'),
-    accountsController = require('./AccountController')
+const accountsController = require('./AccountController')
 
 module.exports = [
-    userRouter,
     accountsController,
 ]
