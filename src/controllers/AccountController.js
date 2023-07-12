@@ -17,4 +17,9 @@ router.get('/accounts/balance', catchError(async (req, res) => {
     res.send({balance})
 }))
 
+router.put('/account/update', catchError(async (req, res) => {
+    await AccountService.updateAccount(req.session.userId, req.body.id, req.body.balance, req.body.showInTotal)
+    res.sendStatus(200)
+}))
+
 module.exports = router

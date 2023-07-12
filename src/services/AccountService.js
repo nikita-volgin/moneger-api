@@ -49,5 +49,23 @@ module.exports = {
         const balanceArray = accounts.map(item => item.balance)
 
         return balanceArray.reduce((sum, current) => sum + current, 0)
+    },
+    async updateAccount(userId, accountId, balance, showInTotal) {
+        if (!(typeof balance === 'number' || typeof showInTotal === 'boolean')) {
+            throw new ServiceError(400, 'Отсутствуют данные для обновления')
+        }
+
+        const account = await AccountModel.findOne({
+            where: {
+                userId,
+                id: accountId
+            }
+        })
+
+        if (account === null) {
+            throw new ServiceError(400, 'Счёт не найден')
+        }
+
+        account.update({ balance, showInTotal })
     }
 }
