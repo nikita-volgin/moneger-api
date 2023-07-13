@@ -12,4 +12,9 @@ router.get('/transactions', catchError(async (req, res) => {
     res.send(data)
 }))
 
+router.delete('/transaction', catchError(async (req,res) => {
+    await TransactionService.deleteTransaction(req.session.userId, req.body.accountId, req.body.id)
+    res.send(200)
+}))
+
 module.exports = router

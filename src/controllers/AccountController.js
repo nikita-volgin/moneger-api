@@ -22,4 +22,9 @@ router.put('/account/update', catchError(async (req, res) => {
     res.sendStatus(200)
 }))
 
+router.delete('/account', catchError(async (req,res) => {
+    await AccountService.deleteAccount(req.session.id, req.body.id)
+    res.sendStatus(200)
+}))
+
 module.exports = router

@@ -21,4 +21,29 @@ module.exports = {
             throw new ServiceError(400, `Категория с наименование "${category.dataValues.description}" уже существует`)
         }
     },
+    async getCategories(userId) {
+        return await CategoryModel.findAll({
+            where: {
+                userId
+            }
+        })
+    },
+    async deleteCategory(userId, id) {
+        if (!id) {
+            throw new ServiceError(400, 'Неполные данные')
+        }
+
+        const category = await CategoryModel.findOne({
+            where: {
+                id,
+                userId
+            }
+        })
+
+        if (category === null) {
+            throw new ServiceError(400, 'Категория не найдена')
+        }
+
+        category.destroy()
+    }
 }

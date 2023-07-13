@@ -45,5 +45,26 @@ module.exports = {
             offset,
             limit
         })
+    },
+    async deleteTransaction(userId, accountId, categoryId) {
+        if (!accountId || !categoryId) {
+            throw new ServiceError(400, 'Неполные данные')
+        }
+
+        await getAccount(accountId, userId)
+
+        const transaction = await TransactionModel.findOne({
+            where: {
+                id: categoryId,
+                accountId
+            }
+        })
+        console.log(transaction, accountId, categoryId)
+
+        if (transaction === null) {
+            throw new ServiceError(400, 'Транзакция не найдена')
+        }
+
+        transaction.destroy()
     }
 }

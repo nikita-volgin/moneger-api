@@ -61,5 +61,23 @@ module.exports = {
         }
 
         await account.update({ balance, showInTotal })
+    },
+    async deleteAccount(userId, accountId) {
+        if (!accountId) {
+            throw new ServiceError(400, 'Неполные данные')
+        }
+
+        const account = await AccountModel.findOne({
+            where: {
+                id: accountId,
+                userId
+            }
+        })
+
+        if (account === null) {
+            throw new ServiceError(400, 'Счёт не найден')
+        }
+
+        account.destroy()
     }
 }
