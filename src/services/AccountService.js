@@ -67,6 +67,8 @@ module.exports = {
             throw new ServiceError(400, 'Неполные данные')
         }
 
+        console.log(userId, accountId)
+
         const account = await AccountModel.findOne({
             where: {
                 id: accountId,
