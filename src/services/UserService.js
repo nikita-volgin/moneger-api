@@ -7,22 +7,20 @@ module.exports = {
             throw new ServiceError(400, 'Неполные данные')
         }
 
-        const isUserCreated = await UserModel.findOne({
+        const [user, created] = await UserModel.findOrCreate({
             where: {
                 login
+            },
+            defaults: {
+                password
             }
         })
 
-        if (isUserCreated) {
+        if (!created) {
             throw new ServiceError(400, 'Пользователь с таким именем существует')
         }
 
-        const user = await UserModel.create({
-            login,
-            password
-        })
-
-        return user.id
+        return user.dataValues.id
     },
     async loginUser(login, password) {
         const user = await UserModel.findOne({
