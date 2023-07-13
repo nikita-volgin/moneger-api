@@ -7,4 +7,9 @@ router.post('/transaction', catchError(async (req, res) => {
     res.sendStatus(200)
 }))
 
+router.get('/transactions', catchError(async (req, res) => {
+    const data = await TransactionService.getTransactions(req.session.userId, req.body.accountId, req.body.skip, req.body.take)
+    res.send(data)
+}))
+
 module.exports = router
