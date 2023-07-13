@@ -26,17 +26,11 @@ module.exports = {
         })
     },
     async getAllAccounts(userId) {
-        const items = await AccountModel.findAll({
+        return await AccountModel.findAll({
             where: {
                 userId
             }
         })
-        const balance = await this.getTotalBalance(userId)
-
-        return {
-            items,
-            balance
-        }
     },
     async getTotalBalance(userId) {
         const accounts = await AccountModel.findAll({
@@ -66,6 +60,6 @@ module.exports = {
             throw new ServiceError(400, 'Счёт не найден')
         }
 
-        account.update({ balance, showInTotal })
+        await account.update({ balance, showInTotal })
     }
 }

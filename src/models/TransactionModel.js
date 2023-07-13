@@ -3,8 +3,9 @@ const { DataTypes } = require('sequelize'),
 
 const transaction = database.define('transactions', {
     accountId: DataTypes.INTEGER,
+    amount: DataTypes.INTEGER,
     description: DataTypes.STRING,
-    type: DataTypes.INTEGER,
+    type: DataTypes.BOOLEAN,
     categoryId: DataTypes.INTEGER
 })
 
