@@ -18,8 +18,8 @@ router.get('/accounts/balance', catchError(async (req, res) => {
 }))
 
 router.put('/account/update', catchError(async (req, res) => {
-    await AccountService.updateAccount(req.session.userId, req.body.id, req.body.balance, req.body.showInTotal)
-    res.sendStatus(200)
+    const account = await AccountService.updateAccount(req.session.userId, req.body.id, req.body.balance, req.body.showInTotal)
+    res.send(account)
 }))
 
 router.delete('/account', catchError(async (req,res) => {

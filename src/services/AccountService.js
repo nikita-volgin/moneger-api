@@ -60,7 +60,7 @@ module.exports = {
             throw new ServiceError(400, 'Счёт не найден')
         }
 
-        await account.update({ balance, showInTotal })
+        return await account.update({ balance, showInTotal })
     },
     async deleteAccount(userId, accountId) {
         if (!accountId) {
