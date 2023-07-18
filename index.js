@@ -11,7 +11,7 @@ const express = require('express'),
 const port = 4321
 
 app.use(cors({
-    origin: "*",
+    origin: "http://localhost:3000",
     credentials: true
 }))
 app.use(express.json())

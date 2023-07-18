@@ -7,15 +7,15 @@ function sendCookie(req, userId) {
 }
 
 router.post('/user', catchError(async (req, res) => {
-    const userId = await UserService.createUser(req.body.login, req.body.password)
-    sendCookie(req, userId)
-    res.sendStatus(200)
+    const user = await UserService.createUser(req.body.login, req.body.password)
+    sendCookie(req, user.id)
+    res.send(user.login)
 }))
 
 router.get('/user', catchError(async (req, res) => {
-    const userId = await UserService.loginUser(req.body.login, req.body.password)
-    sendCookie(req, userId)
-    res.sendStatus(200)
+    const user = await UserService.loginUser(req.body.login, req.body.password)
+    sendCookie(req, user.id)
+    res.send(user.login)
 }))
 
 module.exports = router

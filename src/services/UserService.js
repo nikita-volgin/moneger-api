@@ -20,7 +20,10 @@ module.exports = {
             throw new ServiceError(400, 'Пользователь с таким именем существует')
         }
 
-        return user.dataValues.id
+        return {
+            id: user.dataValues.id,
+            login: user.dataValues.login
+        }
     },
     async loginUser(login, password) {
         const user = await UserModel.findOne({
@@ -34,6 +37,9 @@ module.exports = {
             throw new ServiceError(404, 'Пользователь не найден')
         }
 
-        return user.id
+        return {
+            id: user.id,
+            login: user.login
+        }
     }
 }
