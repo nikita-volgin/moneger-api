@@ -13,7 +13,7 @@ router.post('/user', catchError(async (req, res) => {
 }))
 
 router.get('/user', catchError(async (req, res) => {
-    const user = await UserService.loginUser(req.body.login, req.body.password)
+    const user = await UserService.loginUser(req.headers.login, req.headers.password)
     sendCookie(req, user.id)
     res.send(user.login)
 }))

@@ -26,6 +26,10 @@ module.exports = {
         }
     },
     async loginUser(login, password) {
+        if (!login || !password) {
+            throw new ServiceError(400, 'Неполные данные')
+        }
+
         const user = await UserModel.findOne({
             where: {
                 login,
