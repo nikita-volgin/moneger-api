@@ -8,8 +8,11 @@ router.post('/transaction', catchError(async (req, res) => {
 }))
 
 router.get('/transactions', catchError(async (req, res) => {
-    const data = await TransactionService.getTransactions(req.session.userId, req.body.accountId, req.body.skip, req.body.take)
-    res.send(data)
+    const data = await TransactionService.getTransactions(req.session.userId, req.query.accountId, +req.query.skip, +req.query.take)
+    res.send({
+        items: data.rows,
+        totalCount: data.count
+    })
 }))
 
 router.put('/transaction', catchError(async (req, res) => {

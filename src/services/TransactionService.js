@@ -54,9 +54,12 @@ module.exports = {
         await account.update({balance: account.dataValues.balance + (type ? amount : -amount)})
     },
     async getTransactions(userId, accountId, offset, limit) {
+        if (accountId === undefined || offset === undefined || limit === undefined) {
+            throw new ServiceError(400, 'Неполные данные')
+        }
         await getAccount(accountId, userId)
 
-        return TransactionModel.findAll({
+        return await TransactionModel.findAndCountAll({
             where: {
                 accountId
             },
